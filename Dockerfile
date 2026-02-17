@@ -2,7 +2,8 @@ FROM maven:3.9-eclipse-temurin-17 AS builder
 WORKDIR /app
 COPY pom.xml ./
 COPY src ./src
-RUN mvn -DskipTests -B package
+# Ensure Spring Boot creates an executable jar (run repackage goal explicitly)
+RUN mvn -DskipTests -B package spring-boot:repackage
 
 FROM eclipse-temurin:17-jre
 WORKDIR /app
