@@ -1,0 +1,13 @@
+target/
+.mvn/
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+*.log
+/src/main/resources/application.properties
+.env
+.env.*
+.DS_Store
