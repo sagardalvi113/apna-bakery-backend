@@ -21,4 +21,30 @@ public class ProductController {
         // Single-shop app: return all products regardless of shopId to satisfy frontend
         return products.findAll();
     }
+
+    @PostMapping
+    public Product createProduct(@RequestBody Product product) {
+        return products.save(product);
+    }
+
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product updated) {
+        return products.findById(id).map(p -> {
+            p.setName(updated.getName());
+            p.setDescription(updated.getDescription());
+            p.setImageUrl(updated.getImageUrl());
+            p.setPrice(updated.getPrice());
+            p.setCategory(updated.getCategory());
+            p.setAvailable(updated.isAvailable());
+            return products.save(p);
+        }).orElseGet(() -> {
+            updated.setId(id);
+            return products.save(updated);
+        });
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable("id") Long id) {
+        products.deleteById(id);
+    }
 }
